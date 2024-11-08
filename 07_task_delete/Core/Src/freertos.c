@@ -160,11 +160,15 @@ void StartDefaultTask(void *argument)
   TaskHandle_t xSoundTaskHandle = NULL;
   BaseType_t ret;
 
+  extern void PlayMusic(void *params);
+
   LCD_Init();
   LCD_Clear();
   
   IRReceiver_Init();
   LCD_PrintString(0, 0, "Waiting control");
+
+  PassiveBuzzer_Control(0);
 
   while (1)
   {
@@ -174,7 +178,6 @@ void StartDefaultTask(void *argument)
       /*Creat music task*/
       if(data == 0xa8) //Play
       {
-        extern void PlayMusic(void *params);
         if(xSoundTaskHandle == NULL)
         {
           LCD_ClearLine(0, 0);
@@ -191,7 +194,7 @@ void StartDefaultTask(void *argument)
           LCD_ClearLine(0, 0);
           LCD_PrintString(0, 0, "Delete music");
           vTaskDelete(xSoundTaskHandle);
-          ActiveBuzzer_Control(0);
+          PassiveBuzzer_Control(0);
           xSoundTaskHandle = NULL;
         }
       }
@@ -205,4 +208,3 @@ void StartDefaultTask(void *argument)
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
-
