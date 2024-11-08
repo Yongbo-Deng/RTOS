@@ -167,8 +167,6 @@ void StartDefaultTask(void *argument)
   IRReceiver_Init();
   LCD_PrintString(0, 0, "Waiting control");
 
-  PassiveBuzzer_Control(0);
-
   while (1)
   {
     /*Read IR*/
