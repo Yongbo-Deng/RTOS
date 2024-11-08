@@ -181,7 +181,7 @@ void StartDefaultTask(void *argument)
         {
           LCD_ClearLine(0, 0);
           LCD_PrintString(0, 0, "Create music");
-          ret = xTaskCreate(PlayMusic, "SoundTask", 128, NULL, osPriorityNormal, &xSoundTaskHandle);
+          ret = xTaskCreate(PlayMusic, "SoundTask", 128, NULL, osPriorityNormal + 1, &xSoundTaskHandle);
         }
       }
 
