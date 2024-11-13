@@ -2,6 +2,7 @@
 #include "driver_passive_buzzer.h"
 #include "driver_timer.h"
 
+
 /**
   ******************************************************************************
   * @file           : Music.h
@@ -493,6 +494,8 @@ uint16_t Music_Lone_Brave[][3]={
   * @Return 				NULL
   */
 void MUSIC_Analysis(void){
+	extern void vTaskDelay();
+
 	uint16_t MusicBeatNum = ((((sizeof(Music_Lone_Brave))/2)/3)-1);
 	
 	uint16_t MusicSpeed = Music_Lone_Brave[0][2];
