@@ -291,8 +291,8 @@
     ]
   },
   "outDir": "build",
-  "deviceName": null,
-  "packDir": null,
+  "deviceName": "STM32F103C8",
+  "packDir": ".pack/Keil/STM32F1xx_DFP.2.3.0",
   "miscInfo": {
     "uid": "0d029cafe61d1b0e7c3488438b61dd84"
   },
@@ -413,19 +413,26 @@
         },
         "options": "null"
       },
-      "uploader": "JLink",
+      "uploader": "OpenOCD",
       "uploadConfig": {
         "bin": "",
-        "baseAddr": "",
-        "cpuInfo": {
-          "vendor": "null",
-          "cpuName": "null"
-        },
-        "proType": 1,
-        "speed": 8000,
-        "otherCmds": ""
+        "target": "stm32f1x",
+        "interface": "stlink",
+        "baseAddr": "0x08000000"
       },
-      "uploadConfigMap": {},
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
       "custom_dep": {
         "name": "default",
         "incList": [
@@ -439,12 +446,14 @@
           "../Drivers/CMSIS/Include",
           "../Drivers/DshanMCU-F103",
           ".cmsis/include",
-          "RTE/_01_freertos_template"
+          "RTE/_01_freertos_template",
+          "../nwatch"
         ],
         "libList": [],
         "defineList": [
           "USE_HAL_DRIVER",
-          "STM32F103xB"
+          "STM32F103xB",
+          "STM32F10X_MD"
         ]
       },
       "builderOptions": {

@@ -18,6 +18,12 @@ typedef uint32_t ulong;
 
 #define PROGMEM
 
+struct input_data 
+{
+    uint8_t dev;
+    uint8_t val;
+};
+
 
 // Quick and easy macro for a for loop
 #define LOOP(count, var) for(byte var=0;var<count;var++)

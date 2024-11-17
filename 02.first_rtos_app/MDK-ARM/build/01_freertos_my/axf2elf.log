@@ -1,4 +1,0 @@
-arm-none-eabi-objcopy --update-section ER_IROM1="C:\Users\MiLaptop\AppData\Local\Temp\\01_freertos_my_MEEQ26g2.bin" "c:\Users\MiLaptop\Desktop\RTOS\Projects\02.first_rtos_app\MDK-ARM\build\01_freertos_my\01_freertos_my.axf" "c:\Users\MiLaptop\Desktop\RTOS\Projects\02.first_rtos_app\MDK-ARM\build\01_freertos_my\01_freertos_my.elf"
-
-arm-none-eabi-objcopy: c:\Users\MiLaptop\Desktop\RTOS\Projects\02.first_rtos_app\MDK-ARM\build\01_freertos_my\01_freertos_my.elf: warning: allocated section `RW_IRAM1' not in segment
-

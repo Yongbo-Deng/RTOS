@@ -19,6 +19,7 @@
 #include "driver_key.h"
 #include "driver_uart.h"
 
+
 /**
   ******************************************************************************
   * File Name          : freertos.c
@@ -131,7 +132,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* 创建任务: 声 */
-  //extern void PlayMusic(void *params);
+  extern void PlayMusic(void *params);
+  xTaskCreate(PlayMusic, "MusicTask", 128, NULL, osPriorityNormal, NULL);
   xTaskCreate(game1_task, "GameTask", 128, NULL, osPriorityNormal, NULL);
 
   /* 创建任务: 光 */

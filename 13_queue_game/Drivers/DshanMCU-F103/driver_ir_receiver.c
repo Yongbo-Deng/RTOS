@@ -15,6 +15,9 @@
 #include "driver_timer.h"
 #include "stm32f1xx_hal.h"
 #include "tim.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "typedefs.h"
 
 /* 环形缓冲区: 用来保存解析出来的按键,可以防止丢失 */
 #define BUF_LEN 128
@@ -23,6 +26,8 @@ static int g_KeysBuf_R, g_KeysBuf_W;
 
 static uint64_t g_IRReceiverIRQ_Timers[68];
 static int g_IRReceiverIRQ_Cnt = 0;
+
+extern QueueHandle_t g_xQueuePlatform; 
 
 #define NEXT_POS(x) ((x+1) % BUF_LEN)
 
@@ -117,6 +122,7 @@ static int IRReceiver_IRQTimes_Parse(void)
 	unsigned char data = 0;
 	int bits = 0;
 	int byte = 0;
+	struct input_data idata;
 
 	/* 1. 判断前导码 : 9ms的低脉冲, 4.5ms高脉冲  */
 	time = g_IRReceiverIRQ_Timers[1] - g_IRReceiverIRQ_Timers[0];
@@ -164,8 +170,11 @@ static int IRReceiver_IRQTimes_Parse(void)
         return -1;
 	}
 
-	PutKeyToBuf(datas[0]);
-	PutKeyToBuf(datas[2]);
+	// PutKeyToBuf(datas[0]);
+	// PutKeyToBuf(datas[2]);
+	idata.dev = datas[0];
+	idata.val = datas[2];
+	xQueueSendToBackFromISR(g_xQueuePlatform, &idata, NULL);
     return 0;
 }
 
@@ -213,6 +222,7 @@ void IRReceiver_IRQ_Callback(void)
 {
     uint64_t time;
     static uint64_t pre_time = 0;
+	struct input_data idata;
 
         
 	/* 1. 记录中断发生的时刻 */	
@@ -239,8 +249,9 @@ void IRReceiver_IRQ_Callback(void)
 		if (isRepeatedKey())
 		{
 			/* device: 0, val: 0, 表示重复码 */
-			PutKeyToBuf(0);
-			PutKeyToBuf(0);
+			// PutKeyToBuf(0);
+			// PutKeyToBuf(0);
+			xQueueSendToBackFromISR(g_xQueuePlatform, &idata, NULL);
 			g_IRReceiverIRQ_Cnt = 0;
 		}
 	}

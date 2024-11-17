@@ -72,12 +72,15 @@ static byte platformX;
 static uint32_t g_xres, g_yres, g_bpp;
 static uint8_t *g_framebuffer;
 
+QueueHandle_t g_xQueuePlatform; 
 
-/* 挡球板任务 */
+
+/* platform task */
 static void platform_task(void *params)
 {
     byte platformXtmp = platformX;    
     uint8_t dev, data, last_data;
+	struct input_data idata;
 
     // Draw platform
     draw_bitmap(platformXtmp, g_yres - 8, platform, 12, 8, NOINVERT, 0);
@@ -85,9 +88,11 @@ static void platform_task(void *params)
     
     while (1)
     {
-        /* 读取红外遥控器 */
-		if (0 == IRReceiver_Read(&dev, &data))
+        /* Read IR receiver */
+		// if (0 == IRReceiver_Read(&dev, &data))
+		if (pdPASS == xQueueReceive(g_xQueuePlatform, &idata, portMAX_DELAY))
 		{
+			data = idata.val;
             if (data == 0x00)
             {
                 data = last_data;
@@ -139,8 +144,11 @@ void game1_task(void *params)
     g_framebuffer = LCD_GetFrameBuffer(&g_xres, &g_yres, &g_bpp);
     draw_init();
     draw_end();
-    
-	uptMove = UPT_MOVE_NONE;
+
+	/*Create a queue for platform*/
+    g_xQueuePlatform = xQueueCreate(10, sizeof(struct input_data));
+
+	uptMove = UPT_MOVE_NONE; 
 
 	ball.x = g_xres / 2;
 	ball.y = g_yres - 10;
