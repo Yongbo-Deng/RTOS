@@ -116,7 +116,13 @@ void RotaryEncoder_IRQ_Callback(void)
     /* 上升沿触发: 必定是高电平 
      * 防抖
      */
-    mdelay(2);
+    // mdelay(2);
+    if(time - pre_time < 2000000) 
+    {
+        pre_time = time;
+        return;
+    }
+
     if (!RotaryEncoder_Get_S1())
         return;
 
@@ -124,6 +130,7 @@ void RotaryEncoder_IRQ_Callback(void)
      * S2为0表示逆时针转, 为1表示顺时针转
      */
     g_speed = (uint64_t)1000000000/(time - pre_time);
+    if(g_speed == 0) g_speed = 1;
     if (RotaryEncoder_Get_S2())
     {
         g_count++;
