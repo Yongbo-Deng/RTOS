@@ -279,7 +279,7 @@ void MPU6050_Task(void *parmas)
     }  
 }
 
-QueueHandle_t GetQueueMPU(void)
+QueueHandle_t GetQueueMPU6050(void)
 {
     return g_xQueueMPU;
 }

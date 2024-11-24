@@ -100,8 +100,6 @@ static void CarTask1(void *params)
 	while (1)
 	{
 		/* Read keyValue and queue */
-		// xQueueReceive(xQueueIR, &idata, portMAX_DELAY);
-		// if (idata.val == pcar->control_key)
 		{
 			if (pcar->x < (g_xres - CAR_LENGTH))
 			{
@@ -138,8 +136,6 @@ static void CarTask2(void *params)
 
 	while (1)
 	{
-		// xQueueReceive(xQueueIR, &idata, portMAX_DELAY);
-		// if (idata.val == pcar->control_key)
 		{
 			if (pcar->x < (g_xres - CAR_LENGTH))
 			{

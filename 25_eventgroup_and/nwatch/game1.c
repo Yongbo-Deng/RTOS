@@ -248,7 +248,7 @@ void game1_task(void *params)
 
 	g_xQueueIR = GetQueueIR();
 	g_xQueueRotary = GetQueueRotary();
-	g_xQueueMPU = GetQueueMPU();
+	g_xQueueMPU = GetQueueMPU6050();
 
 	xQueueAddToSet(g_xQueueIR, g_xQueueSetInput);
 	xQueueAddToSet(g_xQueueRotary, g_xQueueSetInput);

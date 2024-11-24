@@ -307,6 +307,8 @@ void IRReceiver_Init(void)
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 #endif
+	g_xQueueIR = xQueueCreate(IR_QUEUE_LEN, sizeof(struct ir_data));
+	RegisterQueueHandle(g_xQueueIR);
 }
 
 /**********************************************************************
